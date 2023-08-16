@@ -1,0 +1,3 @@
+#Defunct - dont get picked up
+atos:
+  emailQueueName: PROTECTION_EMAIL_QUEUE_DEV

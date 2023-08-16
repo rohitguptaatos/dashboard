@@ -1,0 +1,4 @@
+#Defunct - dont get picked up
+atos:
+  emailQueueName: PRTN_EMAIL_QUEUE_DEV2          
+  email.mi.queue: PRTN_MI_EMAIL_QUEUE_DEV

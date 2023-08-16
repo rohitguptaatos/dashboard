@@ -1,0 +1,12 @@
+#Defunct - dont get picked up
+#spring:
+#  artemis:
+#    host: 10.43.192.203
+#    mode: native
+#    port: 61616
+#    user: admin
+#    password: admin
+#    receive-timeout: 10
+#atos:
+#  emailQueueName: PRTN_EMAIL_QUEUE_SIT01
+#  email.mi.queue: PRTN_MI_EMAIL_QUEUE_SIT01
