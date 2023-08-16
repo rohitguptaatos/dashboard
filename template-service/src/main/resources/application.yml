@@ -1,0 +1,95 @@
+eureka:
+  # turn eureka off in development
+  client:
+    enabled: false
+spring:
+  # turn zipkin off in development
+  zipkin:
+    enabled: false
+  # these are the default H2 properties. Provided here so the can be overridden
+  # during development if required.
+  datasource:
+    #url: jdbc:h2:file:~/test6;MODE=Oracle;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    platform: h2db
+    schema: classpath:schema-h2db-full.sql
+    url: jdbc:h2:mem:testdb;MODE=Oracle
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    elasticsearch:
+      repositories:
+        enabled: false
+management:
+  metrics:
+    export:
+      elastic:
+        enabled: false
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+        - loggers
+  endpoint:
+    loggers:
+      enabled: true
+server:
+  port: 8069
+  # Enable response compression
+  compression.enabled: true
+  # Minimum response where compression will kick in
+  compression.min-response-size: 4028
+ 
+  # Mime types that should be compressed  
+  # compression.mime-types=text/html, text/xml, text/plain, text/css, text/javascript, application/javascript, application/json
+  # compression.mime-types: application/json,application/x-www-form-urlencoded;charset=UTF-8
+  compression.mime-types: application/json
+  
+atos:
+  #document.service.url: http://localhost:7001
+  document.service.url: http://document  
+  emailQueueName: PRTN_EMAIL_QUEUE_DEV
+  email:
+    enabled: false
+    service.url: http://localhost:8084
+    mi.queue: PRTN_MI_EMAIL_QUEUE_TEST
+  fuse:
+    enabled: false
+    service.url: http://localhost:8083
+  # Note UME url is currently only available between 6am and 6pm weekdays
+  ume:
+    enabled: true
+    url: https://aegon-int-02.underwriteme.co.uk/api/v2/
+    username: aegon-webhooks-user
+    password: Umewebh00ks
+  cron:
+    # Every day at 5am for Live - 0 0 5 * * ?
+    # Every 5 minutes for Testing - 0 0/5 * * * 
+    purgeSchedule: 0 0/5 * * * ? 
+  vrd:
+    enabled: false
+    serviceUrl: http://aeg-vrd-356:7001/AIWP/AegonServicesImplService?wsdl
+    # sit02 Testing - serviceUrl: http://aeg-vrd-351:7001/AIWP/AegonServicesImplService?wsdl
+    # sit01 testing - serviceUrl: http://aeg-vrd-354:7001/AIWP/AegonServicesImplService?wsdl
+    # Local dev testing - serviceUrl: http://aeg-vrd-356:7001/AIWP/AegonServicesImplService?wsdl           
+logging:
+  level:
+    org:
+      springframework.web: DEBUG
+      hibernate.SQL: INFO
+      
+log.file.path: /var/log/dashboard-services
+log.file.name: template-service
+
+
+     
+  

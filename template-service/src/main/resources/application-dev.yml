@@ -1,0 +1,4 @@
+spring:
+  zipkin:
+    enabled: false
+eureka:  client:    enabled: false
