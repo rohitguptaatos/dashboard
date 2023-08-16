@@ -1,0 +1,209 @@
+---
+swagger: "2.0"
+info:
+  description: "API for AIP to LDAP data retrieval"
+  version: "0.0.1"
+  title: "AIP Protection Application"
+  termsOfService: "https://www.aegon.co.uk/support/faq/terms.html"
+  license:
+    name: "Aegon UK"
+    url: "https://www.aegon.co.uk/support/faq/terms.html"
+host: "localhost:8080"
+basePath: "/UserAccountDataRetrieval"
+tags:
+- name: "AIP-trigger-api"
+  description: "User Information Retrieval API"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  jwtBearerHeader:
+    type: "apiKey"
+    in: "header"
+    name: "Authorization"
+    description: "JWT bearer authentication. When entering a value, ensure it is prefixed\
+      \ with 'Bearer '. <br/><br/> E.g. 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ'"
+security:
+- jwtBearerHeader: []
+paths:
+  /SearchByUIDs:
+    post:
+      tags:
+      - "AIP-trigger-api"
+      summary: "LDAP user(s) info Retrieval by UserID"
+      operationId: "searchByUserId"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "request"
+        description: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/searchbyUserIdRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/searchUserResponse"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/errorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/errorResponse"
+  /SearchByEmailIDs:
+    post:
+      tags:
+      - "AIP-trigger-api"
+      summary: "LDAP user(s) info Retrieval by EmailId"
+      operationId: "searchByEmail"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "request"
+        description: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/searchbyEmailIdRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/searchUserResponse"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/errorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/errorResponse"
+  /SearchByFRN:
+    post:
+      tags:
+      - "AIP-trigger-api"
+      summary: "LDAP user(s) info Retrieval by FRN"
+      operationId: "searchbyFRN"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "request"
+        description: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/searchFRNRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/searchUserResponse"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/errorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/errorResponse"
+definitions:
+  errorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "integer"
+      errorMessage:
+        type: "string"
+  searchbyUserIdRequest:
+    type: "object"
+    properties:
+      userUIDs:
+        type: "array"
+        items:
+          $ref: "#/definitions/user"
+        minItems: 0
+        maxItems: 100
+      certIDs:
+        type: "array"
+        items:
+          $ref: "#/definitions/cert"
+        minItems: 0
+        maxItems: 100
+  searchbyEmailIdRequest:
+    type: "object"
+    properties:
+      emailIDs:
+        type: "array"
+        items:
+          $ref: "#/definitions/email"
+        minItems: 1
+        maxItems: 100
+  searchFRNRequest:
+    type: "object"
+    properties:
+      frn:
+        type: "string"
+  user:
+    type: "string"
+  cert:
+    type: "string"
+  searchUserResponse:
+    type: "object"
+    properties:
+      userDetails:
+        type: "array"
+        items:
+          $ref: "#/definitions/userDetails"
+        minItems: 0
+        maxItems: 100
+      errorDetails:
+        type: "array"
+        items:
+          $ref: "#/definitions/errorResponse"
+        minItems: 0
+        maxItems: 100
+      
+  email:
+    type: "string"
+  userDetails:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      forename:
+        type: "string"
+      surname:
+        type: "string"
+      email:
+        type: "string"
+      userUID:
+        type: "string"
+      userStatus:
+        type: "string"
+      userAlias:
+        type: "string"
+      frn:
+        type: "string"
+      userType:
+        type: "string"
+      userRoles:
+        type: "string"
+      isGlobalUser:
+        type: "string"
+      certID: 
+        type: "string"
+      postCode:
+        type: "string"
